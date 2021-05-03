@@ -25,4 +25,50 @@ router.post('/customer', (req, res)=>{
     })
 })
 
+router.get('/customer', (req, res)=>{
+    if(!req.query.email){
+        return res.status(400).send('missing url parameters')
+    }
+    CustomerModel.findOne({
+        email: req.query.email
+    })
+    .then(doc=>{
+        res.json(doc)
+    })
+    .catch(err=>{
+        res.status(500).json(err)
+    })
+})
+
+router.put('/customer', (req, res)=>{
+    if(!req.query.email){
+        return res.status(400).send('missing url parameters')
+    }
+    CustomerModel.findOneAndUpdate({
+        email: req.query.email
+    }, req.body,{
+        new:true
+    })
+    .then(doc=>{
+        res.json(doc)
+    })
+    .catch(err=>{
+        res.status(500).json(err)
+    })
+})
+
+router.delete('/customer', (req, res)=>{
+    if(!req.query.email){
+        return res.status(400).send('missing url parameters')
+    }
+    CustomerModel.findOneAndRemove({
+        email: req.query.email
+    })
+    .then(doc=>{
+        res.json(doc)
+    })
+    .catch(err=>{
+        res.status(500).json(err)
+    })
+})
 module.exports = router
